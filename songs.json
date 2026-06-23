@@ -8,8 +8,8 @@
     "cover": "assets/covers/overthinking.jpeg",
     "audio": "assets/audio/overthinking.m4a",
     "lyrics": "lyrics/overthinking.html",
-    "video": "",
-    "credits": "Artist(s): KingJJ. Presented by Kings Cuts Productions.",
+    "video": "assets/videos/overthinking.mp4",
+    "credits": "Artist(s): KingJJ. Music video presented by Kings Cuts Productions.",
     "featured": true
   },
   {
@@ -60,6 +60,19 @@
     "cover": "assets/covers/the-cookie-diss.jpeg",
     "audio": "assets/audio/the-cookie-diss.m4a",
     "lyrics": "lyrics/the-cookie-diss.html",
+    "video": "",
+    "credits": "Artist(s): KingJJ. Presented by Kings Cuts Productions.",
+    "featured": false
+  },
+  {
+    "id": "gherkin",
+    "title": "Gherkin",
+    "artist": "KingJJ",
+    "type": "Diss Track",
+    "releaseDate": "February 2026",
+    "cover": "assets/covers/gherkin.png",
+    "audio": "assets/audio/gherkin.m4a",
+    "lyrics": "lyrics/gherkin.html",
     "video": "",
     "credits": "Artist(s): KingJJ. Presented by Kings Cuts Productions.",
     "featured": false

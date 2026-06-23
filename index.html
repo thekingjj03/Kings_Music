@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#1f1f1f" />
   <meta name="description" content="Kings Music — a Kings Cuts Productions music web app." />
-
   <title>Kings Music</title>
-
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/png" href="assets/icons/icon-192.png" />
@@ -19,11 +17,11 @@
       <button class="brand-button" id="homeBtn" aria-label="Go home">
         <img src="assets/logo.png" alt="Kings Cuts Productions logo" class="brand-logo" />
       </button>
-
       <nav class="nav-pills" aria-label="Main navigation">
         <button class="pill active" data-filter="all">All</button>
         <button class="pill" data-filter="KingJJ">KingJJ</button>
         <button class="pill" data-filter="KingJJ feat. Ralphy">Features</button>
+        <button class="pill" data-filter="Diss Track">Diss Tracks</button>
       </nav>
     </header>
 
@@ -35,28 +33,14 @@
           <p class="hero-text">A no-account, no-app-store music hub for KingJJ and approved Kings Prod releases.</p>
           <div class="hero-actions">
             <button id="playFeatured" class="primary-btn">Play Featured</button>
+            <button id="queueOpenTop" class="secondary-btn">Queue</button>
             <button id="installHelp" class="secondary-btn">Install on Phone</button>
           </div>
         </div>
-
         <div class="hero-art-wrap">
           <img id="featuredCover" src="assets/logo.png" alt="Featured cover art" class="hero-art" />
           <div class="disc-glow"></div>
         </div>
-      </section>
-
-      <section class="video-panel" id="videoPanel" hidden>
-        <div class="video-head">
-          <div>
-            <p class="eyebrow">Music Video</p>
-            <h2 id="videoTitle">Video</h2>
-          </div>
-          <div class="video-actions">
-            <button class="secondary-btn" id="videoFullBtn">Fullscreen</button>
-            <button class="secondary-btn" id="videoCloseBtn">Close</button>
-          </div>
-        </div>
-        <div class="video-frame-wrap" id="videoFrameWrap"></div>
       </section>
 
       <section class="section-head">
@@ -91,10 +75,11 @@
     </div>
 
     <div class="player-controls">
-      <button id="prevBtn" class="control-btn" aria-label="Previous song">⏮</button>
-      <button id="playBtn" class="play-btn" aria-label="Play or pause">▶</button>
-      <button id="nextBtn" class="control-btn" aria-label="Next song">⏭</button>
-      <button id="videoToggleBtn" class="control-btn video-toggle" aria-label="Toggle music video" hidden>▣</button>
+      <button id="prevBtn" class="control-btn" aria-label="Previous song"></button>
+      <button id="playBtn" class="play-btn" aria-label="Play or pause"></button>
+      <button id="nextBtn" class="control-btn" aria-label="Next song"></button>
+      <button id="videoToggleBtn" class="control-btn video-toggle" aria-label="Toggle music video" hidden></button>
+      <button id="queueToggleBtn" class="control-btn" aria-label="Open queue"></button>
     </div>
 
     <div class="time-row">
@@ -102,9 +87,54 @@
       <input id="seekBar" type="range" min="0" max="100" value="0" aria-label="Seek" />
       <span id="duration">0:00</span>
     </div>
-
-    <audio id="audio"></audio>
+    <audio id="audio" preload="none"></audio>
   </aside>
+
+  <section class="video-overlay" id="videoOverlay" hidden aria-label="Music video viewer">
+    <div class="video-shell">
+      <header class="overlay-head">
+        <div>
+          <p class="eyebrow">Music Video</p>
+          <h2 id="videoTitle">Video</h2>
+        </div>
+        <div class="overlay-actions">
+          <button class="secondary-btn" id="videoFullBtn">Fullscreen</button>
+          <button class="secondary-btn" id="videoCloseBtn">Close</button>
+        </div>
+      </header>
+      <video id="videoPlayer" controls playsinline preload="metadata"></video>
+      <p class="video-note">Video mode syncs with the song time. Closing video returns you to audio playback.</p>
+    </div>
+  </section>
+
+  <section class="modal" id="lyricsModal" hidden aria-label="Lyrics viewer">
+    <div class="modal-card lyrics-modal-card">
+      <header class="overlay-head">
+        <div>
+          <p class="eyebrow">Lyrics</p>
+          <h2 id="lyricsTitle">Lyrics</h2>
+        </div>
+        <button class="secondary-btn" id="lyricsCloseBtn">Close</button>
+      </header>
+      <div id="lyricsBody" class="lyrics-modal-body">Loading lyrics...</div>
+    </div>
+  </section>
+
+  <section class="modal" id="queueModal" hidden aria-label="Queue viewer">
+    <div class="modal-card queue-card">
+      <header class="overlay-head">
+        <div>
+          <p class="eyebrow">Up Next</p>
+          <h2>Queue</h2>
+        </div>
+        <div class="overlay-actions">
+          <button class="secondary-btn" id="clearQueueBtn">Clear</button>
+          <button class="secondary-btn" id="queueCloseBtn">Close</button>
+        </div>
+      </header>
+      <div id="queueBody" class="queue-body"></div>
+    </div>
+  </section>
 
   <script src="script.js"></script>
 </body>
