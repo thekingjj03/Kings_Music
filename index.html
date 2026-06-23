@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1f1f1f" />
+  <meta name="description" content="Kings Music — a Kings Cuts Productions music web app." />
+
+  <title>Kings Music</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/png" href="assets/icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-180.png" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand-button" id="homeBtn" aria-label="Go home">
+        <img src="assets/logo.png" alt="Kings Cuts Productions logo" class="brand-logo" />
+      </button>
+
+      <nav class="nav-pills" aria-label="Main navigation">
+        <button class="pill active" data-filter="all">All</button>
+        <button class="pill" data-filter="KingJJ">KingJJ</button>
+        <button class="pill" data-filter="Coming Soon">Coming Soon</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero-card" id="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Kings Cuts Productions Presents</p>
+          <h1>Kings Music</h1>
+          <p class="hero-text">A no-account, no-app-store music hub for KingJJ and approved Kings Prod releases.</p>
+          <div class="hero-actions">
+            <button id="playFeatured" class="primary-btn">Play Featured</button>
+            <button id="installHelp" class="secondary-btn">Install on Phone</button>
+          </div>
+        </div>
+
+        <div class="hero-art-wrap">
+          <img id="featuredCover" src="assets/covers/overthinking.jpg" alt="Featured cover art" class="hero-art" />
+          <div class="disc-glow"></div>
+        </div>
+      </section>
+
+      <section class="section-head">
+        <div>
+          <p class="eyebrow">Library</p>
+          <h2>Releases</h2>
+        </div>
+        <label class="search-wrap">
+          <span class="sr-only">Search songs</span>
+          <input id="searchInput" type="search" placeholder="Search Kings Music..." autocomplete="off" />
+        </label>
+      </section>
+
+      <section id="library" class="library-grid" aria-live="polite"></section>
+
+      <section class="info-panel" id="installPanel" hidden>
+        <h2>Install Kings Music</h2>
+        <p><strong>iPhone:</strong> open this site in Safari, tap Share, then tap Add to Home Screen.</p>
+        <p><strong>Android:</strong> open this site in Chrome, tap the menu, then tap Install app or Add to Home screen.</p>
+        <button class="secondary-btn" id="closeInstall">Got it</button>
+      </section>
+    </main>
+  </div>
+
+  <aside class="player" aria-label="Music player">
+    <div class="player-track">
+      <img id="playerCover" src="assets/logo.png" alt="" class="player-cover" />
+      <div class="player-meta">
+        <p id="playerTitle">Choose a song</p>
+        <p id="playerArtist">Kings Music</p>
+      </div>
+    </div>
+
+    <div class="player-controls">
+      <button id="prevBtn" class="control-btn" aria-label="Previous song">⏮</button>
+      <button id="playBtn" class="play-btn" aria-label="Play or pause">▶</button>
+      <button id="nextBtn" class="control-btn" aria-label="Next song">⏭</button>
+    </div>
+
+    <div class="time-row">
+      <span id="currentTime">0:00</span>
+      <input id="seekBar" type="range" min="0" max="100" value="0" aria-label="Seek" />
+      <span id="duration">0:00</span>
+    </div>
+
+    <audio id="audio"></audio>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>

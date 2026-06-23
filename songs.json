@@ -1,0 +1,41 @@
+[
+  {
+    "id": "overthinking",
+    "title": "Overthinking",
+    "artist": "KingJJ",
+    "type": "Single",
+    "releaseDate": "2026",
+    "cover": "assets/covers/overthinking.jpg",
+    "audio": "assets/audio/overthinking.m4a",
+    "lyrics": "lyrics/overthinking.html",
+    "video": "",
+    "credits": "Written and performed by KingJJ. Presented by Kings Cuts Productions.",
+    "featured": true
+  },
+  {
+    "id": "next-release",
+    "title": "Next Release",
+    "artist": "KingJJ",
+    "type": "Coming Soon",
+    "releaseDate": "TBA",
+    "cover": "assets/logo.png",
+    "audio": "",
+    "lyrics": "",
+    "video": "",
+    "credits": "Placeholder slot for the next KingJJ release.",
+    "featured": false
+  },
+  {
+    "id": "approved-artist-slot",
+    "title": "Approved Artist Slot",
+    "artist": "Kings Prod Artist",
+    "type": "Coming Soon",
+    "releaseDate": "TBA",
+    "cover": "assets/logo.png",
+    "audio": "",
+    "lyrics": "",
+    "video": "",
+    "credits": "Placeholder slot for music by someone approved for Kings Music.",
+    "featured": false
+  }
+]
