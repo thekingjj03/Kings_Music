@@ -1,4 +1,4 @@
-const CACHE_NAME = "kings-music-v1";
+const CACHE_NAME = "kings-music-v2";
 const APP_SHELL = [
   "./",
   "index.html",

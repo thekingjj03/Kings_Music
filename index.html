@@ -23,7 +23,7 @@
       <nav class="nav-pills" aria-label="Main navigation">
         <button class="pill active" data-filter="all">All</button>
         <button class="pill" data-filter="KingJJ">KingJJ</button>
-        <button class="pill" data-filter="Coming Soon">Coming Soon</button>
+        <button class="pill" data-filter="KingJJ feat. Ralphy">Features</button>
       </nav>
     </header>
 
@@ -40,9 +40,23 @@
         </div>
 
         <div class="hero-art-wrap">
-          <img id="featuredCover" src="assets/covers/overthinking.jpg" alt="Featured cover art" class="hero-art" />
+          <img id="featuredCover" src="assets/logo.png" alt="Featured cover art" class="hero-art" />
           <div class="disc-glow"></div>
         </div>
+      </section>
+
+      <section class="video-panel" id="videoPanel" hidden>
+        <div class="video-head">
+          <div>
+            <p class="eyebrow">Music Video</p>
+            <h2 id="videoTitle">Video</h2>
+          </div>
+          <div class="video-actions">
+            <button class="secondary-btn" id="videoFullBtn">Fullscreen</button>
+            <button class="secondary-btn" id="videoCloseBtn">Close</button>
+          </div>
+        </div>
+        <div class="video-frame-wrap" id="videoFrameWrap"></div>
       </section>
 
       <section class="section-head">
@@ -80,6 +94,7 @@
       <button id="prevBtn" class="control-btn" aria-label="Previous song">⏮</button>
       <button id="playBtn" class="play-btn" aria-label="Play or pause">▶</button>
       <button id="nextBtn" class="control-btn" aria-label="Next song">⏭</button>
+      <button id="videoToggleBtn" class="control-btn video-toggle" aria-label="Toggle music video" hidden>▣</button>
     </div>
 
     <div class="time-row">
