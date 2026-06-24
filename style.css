@@ -32,3 +32,39 @@
   .hero p{font-size:.92rem;}
   .song-sub{font-size:.72rem;}
 }
+
+
+/* v5.1 video hotfix styling */
+.video-box {
+  display: block;
+  margin-top: 14px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(0,0,0,.34);
+}
+
+.video-box[hidden] {
+  display: none !important;
+}
+
+.video-box video {
+  display: block;
+  width: 100%;
+  max-height: 52vh;
+  border-radius: 14px;
+  background: #000;
+}
+
+.video-box .secondary,
+#videoWideBtn {
+  margin-top: 10px;
+}
+
+.wide-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  object-fit: contain;
+}

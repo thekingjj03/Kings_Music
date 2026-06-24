@@ -41,3 +41,14 @@ None
 
 ## Metadata notes to confirm later
 - One Take was listed as Ralphy in its metadata/filename, so I kept Ralphy as the primary artist. You had said Ralphy is primary on two songs, so this may be one to confirm later.
+
+
+## v5.1 video fix
+
+- Fixed video toggle behavior so audio remains the master playback source.
+- Video is now a synced visual layer instead of acting like a separate song.
+- Switching audio/video should keep the timestamp as closely as the browser allows.
+- Video is muted to prevent double-audio while the main audio track plays.
+- Improved video area styling so the video panel is visible when toggled.
+
+Overthinking video file present: 11.01 MB
