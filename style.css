@@ -68,3 +68,19 @@
   background: #000;
   object-fit: contain;
 }
+
+
+/* v5.2 new Kings Music logo + no-video cleanup */
+.brand img,
+#heroCover,
+.player-main img,
+#barCover,
+#npCover {
+  background: transparent;
+}
+
+#toggleVideo,
+.video-box,
+.wide-video {
+  display: none !important;
+}

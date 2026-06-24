@@ -52,3 +52,16 @@ None
 - Improved video area styling so the video panel is visible when toggled.
 
 Overthinking video file present: 11.01 MB
+
+
+## v5.2 update
+
+- Removed the Overthinking video file from the package.
+- Removed/hid video controls from the app UI.
+- Cleared video metadata from all songs.
+- Replaced the website/app logo with the new Kings Music squircle logo.
+- Regenerated the web app icons:
+  - assets/icons/icon-180.png
+  - assets/icons/icon-192.png
+  - assets/icons/icon-512.png
+- Updated the service worker cache name so browsers should refresh the new assets.
