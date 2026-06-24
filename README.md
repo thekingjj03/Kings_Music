@@ -65,3 +65,10 @@ Overthinking video file present: 11.01 MB
   - assets/icons/icon-192.png
   - assets/icons/icon-512.png
 - Updated the service worker cache name so browsers should refresh the new assets.
+
+
+## v5.2.1 loader fix
+
+- Fixed the app load crash caused by old video JavaScript references after removing the video UI.
+- Kept all video files and video metadata removed.
+- Updated cache name again so GitHub Pages/PWA should refresh.
