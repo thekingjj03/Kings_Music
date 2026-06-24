@@ -1,0 +1,127 @@
+{
+  "report": [
+    {
+      "zip": "Overthinking.zip",
+      "status": "added",
+      "title": "Overthinking"
+    },
+    {
+      "zip": "No Remorse(1).zip",
+      "status": "added",
+      "title": "No Remorse"
+    },
+    {
+      "zip": "Lies(1).zip",
+      "status": "added",
+      "title": "Lies"
+    },
+    {
+      "zip": "The Cookie Diss(1).zip",
+      "status": "added",
+      "title": "The Cookie Diss"
+    },
+    {
+      "zip": "Friendly Fire(2).zip",
+      "status": "added",
+      "title": "Friendly Fire"
+    },
+    {
+      "zip": "Gherkin.zip",
+      "status": "added",
+      "title": "Gherkin"
+    },
+    {
+      "zip": "Back of my Mind(1).zip",
+      "status": "added",
+      "title": "Back of my Mind"
+    },
+    {
+      "zip": "Be Gone(1).zip",
+      "status": "added",
+      "title": "Be Gone"
+    },
+    {
+      "zip": "Boundless(1).zip",
+      "status": "added",
+      "title": "Boundless"
+    },
+    {
+      "zip": "Childish(1).zip",
+      "status": "added",
+      "title": "Childish"
+    },
+    {
+      "zip": "comeback(1).zip",
+      "status": "added",
+      "title": "Comeback"
+    },
+    {
+      "zip": "Life's a Gamble (prod. by Ralphy)(1).zip",
+      "status": "added",
+      "title": "Life's a Gamble (prod. by Ralphy)"
+    },
+    {
+      "zip": "Motivation.zip",
+      "status": "added",
+      "title": "Motivation"
+    },
+    {
+      "zip": "One Take.zip",
+      "status": "added",
+      "title": "One Take"
+    },
+    {
+      "zip": "Prowess.zip",
+      "status": "added",
+      "title": "Prowess"
+    },
+    {
+      "zip": "Return of the King-Child.zip",
+      "status": "added",
+      "title": "Return of the King-Child"
+    },
+    {
+      "zip": "Takin' the Throne.zip",
+      "status": "added",
+      "title": "Takin' the Throne"
+    },
+    {
+      "zip": "UNSTABLE.zip",
+      "status": "added",
+      "title": "UNSTABLE"
+    },
+    {
+      "zip": "Wake Up.zip",
+      "status": "added",
+      "title": "Wake Up"
+    },
+    {
+      "zip": "Was It All Just Pretend?.zip",
+      "status": "added",
+      "title": "Was It All Just Pretend?"
+    }
+  ],
+  "songs": [
+    "Back of my Mind",
+    "Be Gone",
+    "Boundless",
+    "Childish",
+    "Comeback",
+    "Friendly Fire",
+    "Gherkin",
+    "Lies",
+    "Life's a Gamble (prod. by Ralphy)",
+    "Motivation",
+    "No Remorse",
+    "One Take",
+    "Overthinking",
+    "Prowess",
+    "Return of the King-Child",
+    "Takin' the Throne",
+    "The Cookie Diss",
+    "UNSTABLE",
+    "Wake Up",
+    "Was It All Just Pretend?"
+  ],
+  "big_files": []
+}

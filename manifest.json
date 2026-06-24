@@ -1,12 +1,10 @@
 {
   "name": "Kings Music",
   "short_name": "Kings Music",
-  "description": "A Kings Cuts Productions music web app.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#151515",
-  "theme_color": "#1f1f1f",
-  "orientation": "portrait",
+  "theme_color": "#151515",
   "icons": [
     {
       "src": "assets/icons/icon-192.png",
