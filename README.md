@@ -80,3 +80,10 @@ Overthinking video file present: 11.01 MB
 - Added safer guards around optional UI elements.
 - Kept videos removed.
 - Updated service worker cache name to v5.2.2.
+
+
+## v5.2.3 event fix
+
+- Fixed `Cannot set properties of null (setting 'onclick')` by safely binding click events only when the element exists.
+- Kept video removed.
+- Updated cache name to v5.2.3.

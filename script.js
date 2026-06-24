@@ -1,4 +1,11 @@
 
+/* v5.2.3 safe event binding helper */
+function bindClick(selector, handler) {
+  const el = typeof selector === "string" ? document.querySelector(selector) : selector;
+  if (el) el.onclick = handler;
+}
+
+
 const ICONS = {
   play: `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`,
   pause: `<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>`,
@@ -195,7 +202,7 @@ function events(){
   $('#searchInput').oninput=allSongs; $('#sortSelect').onchange=allSongs; $('#shuffleBtn').onclick=()=>playSong(Math.floor(Math.random()*songs.length));
   playBtn.onclick=npPlay.onclick=togglePlay; prevBtn.onclick=npPrev.onclick=prev; nextBtn.onclick=npNext.onclick=next;
   $('#openNowPlaying').onclick=openNP; $('#closeNowPlaying').onclick=()=>nowPlaying.close();
-  $('#toggleLyrics').onclick=()=>lyricsPanel.hidden=!lyricsPanel.hidden; $('#toggleQueue').onclick=()=>queuePanel.hidden=!queuePanel.hidden; toggleVideo.onclick=showVideo;
+  $('#toggleLyrics').onclick=()=>lyricsPanel.hidden=!lyricsPanel.hidden; $('#toggleQueue').onclick=()=>queuePanel.hidden=!queuePanel.hidden; if (toggleVideo) toggleVideo.onclick = showVideo;
   $('#videoWideBtn').onclick=()=>{if(songs[currentIndex]?.video){wideVideo.src=songs[currentIndex].video; wideVideo.currentTime=songVideo.currentTime||0; wideVideoDialog.showModal(); wideVideo.play().catch(()=>{});}};
   $('#closeWideVideo').onclick=()=>{songVideo.currentTime=wideVideo.currentTime||songVideo.currentTime; wideVideo.pause(); wideVideoDialog.close();};
   $('#addCurrentToPlaylist').onclick=()=>{if(currentIndex>=0)addPl(currentIndex);};
@@ -230,3 +237,7 @@ window.showVideo = function(){ return; };
 window.addEventListener("unhandledrejection", function(event){
   console.warn("Kings Music handled promise issue:", event.reason);
 });
+
+
+/* v5.2.3 no-video guard */
+window.showVideo = function(){ return; };
