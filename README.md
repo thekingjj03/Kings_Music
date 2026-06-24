@@ -72,3 +72,11 @@ Overthinking video file present: 11.01 MB
 - Fixed the app load crash caused by old video JavaScript references after removing the video UI.
 - Kept all video files and video metadata removed.
 - Updated cache name again so GitHub Pages/PWA should refresh.
+
+
+## v5.2.2 crash fix
+
+- Removed leftover video startup hooks that could crash the app after video UI was removed.
+- Added safer guards around optional UI elements.
+- Kept videos removed.
+- Updated service worker cache name to v5.2.2.

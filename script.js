@@ -1,8 +1,4 @@
 
-/* v5.2.1 no-video safety helpers */
-function kmSafeEl(selector) { return document.querySelector(selector); }
-function kmSafeHide(el, value = true) { if (el) el.hidden = value; }
-
 const ICONS = {
   play: `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`,
   pause: `<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>`,
@@ -224,13 +220,13 @@ init().catch(e=>{console.error(e); document.body.innerHTML='<main style="color:w
 
 
 
-/* v5.2 no-video build
-   Video support is intentionally disabled and all video files are removed. */
-window.showVideo = function(){ return; };
 
 
-/* v5.2.1 final no-video guard */
+
+/* v5.2.2 no-video crash fix */
 window.showVideo = function(){ return; };
-window.addEventListener("error", function(event){
-  console.warn("Kings Music handled a script issue:", event.message);
+
+// Extra protection: do not let removed video controls break startup.
+window.addEventListener("unhandledrejection", function(event){
+  console.warn("Kings Music handled promise issue:", event.reason);
 });
