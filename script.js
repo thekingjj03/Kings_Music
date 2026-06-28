@@ -298,9 +298,9 @@ function events(){
   }
 }
 async function init(){
-  songs=await(await fetch('songs.json?v=5.8')).json(); loadPl(); home(); allSongs(); artists(); renderPl(); renderQ(); events();
+  songs=await(await fetch('songs.json?v=5.8.2')).json(); loadPl(); home(); allSongs(); artists(); renderPl(); renderQ(); events();
   const p=new URLSearchParams(location.search); if(p.get('pl'))importCode(p.get('pl'));
-  if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=5.8').catch(()=>{});
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=5.8.2').catch(()=>{});
 }
 init().catch(e=>{console.error(e); document.body.innerHTML='<main style="color:white;padding:20px">Could not load Kings Music.</main>';});
 
@@ -360,14 +360,16 @@ function shareSongSafe(i){
   const box = document.querySelector('#playlistCodeBox');
   if(box) box.value = code;
   switchTab('playlists');
-  try { navigator.clipboard?.writeText(code); } catch {}
-  toastMsg(`${s.title} code: ${code}`);
+  navigator.clipboard?.writeText(code).then(
+    () => toastMsg(`${s.title} code copied: ${code}`),
+    () => toastMsg(`${s.title} code: ${code}`)
+  );
 }
 function importAnyCodeSafe(raw){
   const code = (raw || '').trim();
   const songIndex = songIndexFromCode(code);
   if(songIndex >= 0){
-    setCur(songIndex);
+    playSong(songIndex);
     openNP();
     toastMsg('Song code loaded');
     return;
@@ -391,7 +393,7 @@ function addShareButtonsSafe(root=document){
     b.type = 'button';
     b.title = 'Get song code';
     b.setAttribute('aria-label', 'Get code for ' + songs[songIndex].title);
-    b.innerHTML = '<img src="assets/icons/share.png?v=5.8" alt="">';
+    b.innerHTML = '<img src="assets/icons/share.png?v=5.8.2.2" alt="">';
     b.onclick = () => shareSongSafe(songIndex);
     actions.appendChild(b);
   });

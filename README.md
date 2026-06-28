@@ -110,3 +110,18 @@ Changes:
 - Import code box now accepts song codes or playlist codes.
 - Top-right sharing button now opens Sharing instead of redundantly generating a playlist code.
 - Kept the working v5.7.1 base and no-video setup.
+
+
+## v5.8.1 import song code fix
+
+- Fixed song code import so it uses `playSong(index)` instead of only opening Now Playing.
+- If a song is already playing, importing a song code now switches to the imported song.
+- Updated cache-busting to `v=5.8.1`.
+
+
+## v5.8.2 copy song code only
+
+- Song share buttons now copy only the short song code, such as `S00`, instead of a full URL.
+- The code still appears in the Sharing import box.
+- Importing that code switches to and plays the song.
+- Updated cache-busting to `v=5.8.2`.
