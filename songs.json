@@ -2,25 +2,24 @@
   {
     "id": "pain-and-purpose-kingjj-remaster",
     "title": "Pain and Purpose (KingJJ Remaster)",
-    "artist": "KingJJ",
-    "featuredArtists": [
-      "Tae Sosa",
-      "Jaylin Bradley"
-    ],
+    "artist": "KingJJ with Tae Sosa & Jaylin Bradley",
+    "featuredArtists": [],
     "type": "Single",
     "category": "",
     "releaseDate": "June 2026",
     "cover": "assets/covers/pain-and-purpose-kingjj-remaster.png",
     "audio": "assets/audio/pain-and-purpose-kingjj-remaster.m4a",
     "lyrics": "lyrics/pain-and-purpose-kingjj-remaster.html",
-    "lyricsText": "",
+    "lyricsText": "[KingJJ Verse]\n\nYeah, uh, at the corner of pain and purpose\n\nGetting on the beat, my goal is to serve it\n\nHoppin\u2019 on the mic, I speak with a purpose\n\n\u2019Cause what you don\u2019t see is the inside\n\nI\u2019m hurtin\u2019, and it\u2019s the pain I confide\n\nThat\u2019s when my homie, the purpose\n\nPulls up to say, \u201cCome on, let\u2019s ride\u201d\n\nIn these long nights, I take long rides to\n\nReflect on the choices in my life\n\nLeft the game, then rejoined\n\nLeft my throne, just to take it back\n\nPart of me was lost without the pain\n\nMy purpose was always there\n\nIt was just unclear\n\nNow I know it for certain, after the pain\n\nMy purpose became my reason\n\nQuitting now would just be treason\n\nPutting all of these hours and weeks\n\nIn something that I love\n\nAnd now I\u2019ve got the armor on\n\nHonor the pain and the purpose\n\nPour it into all of these verses\n\nSwear when I come back\n\nI sure won\u2019t be perfect\n\nBut I know I\u2019ma never quit\n\nOn my purpose\n\n(Never quit on my purpose)",
     "video": "",
     "videoType": "",
     "credits": "Performed by KingJJ with Tae Sosa and Jaylin Bradley. Presented by Kings Music.",
     "primaryArtists": [
-      "KingJJ"
+      "KingJJ",
+      "Tae Sosa",
+      "Jaylin Bradley"
     ],
-    "displayArtist": "KingJJ feat. Tae Sosa & Jaylin Bradley",
+    "displayArtist": "KingJJ with Tae Sosa & Jaylin Bradley",
     "releaseSort": "2026-06"
   },
   {
@@ -319,7 +318,7 @@
     ],
     "type": "Single",
     "category": "",
-    "releaseDate": "August 2026",
+    "releaseDate": "August 2025",
     "cover": "assets/covers/prowess.jpeg",
     "audio": "assets/audio/prowess.mp3",
     "lyrics": "lyrics/prowess.html",
@@ -331,7 +330,7 @@
       "Ralphy"
     ],
     "displayArtist": "Ralphy feat. KingJJ",
-    "releaseSort": "2026-08"
+    "releaseSort": "2025-08"
   },
   {
     "id": "return-of-the-king-child",

@@ -87,3 +87,15 @@ Changes:
 - Kept all video files removed.
 - Kept null `.onclick` safety behavior.
 - Updated cache-busting to `v=5.6`.
+
+
+## v5.7 update
+
+- Added KingJJ verse lyrics for Pain and Purpose.
+- Changed Pain and Purpose credit to "KingJJ with Tae Sosa & Jaylin Bradley" instead of "feat."
+- Removed lyrics buttons from browsing/song rows.
+- Kept lyrics available in the Now Playing/player screen.
+- Added share buttons to song rows using the uploaded share icon with the black background removed.
+- Fixed Prowess year from 2026 to 2025.
+- Kept the no-video safe setup.
+- Updated cache-busting to `v=5.7`.

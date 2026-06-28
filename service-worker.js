@@ -1,4 +1,4 @@
-const CACHE_NAME = "kings-music-v5-6-add-pain-purpose";
+const CACHE_NAME = "kings-music-v5-7-lyrics-share-fixes";
 self.addEventListener("install", event => self.skipWaiting());
 self.addEventListener("activate", event => {
   event.waitUntil((async () => {

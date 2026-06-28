@@ -55,3 +55,26 @@ button[data-vid],
 .wide-video {
   display: none !important;
 }
+
+
+/* v5.7 share button styles */
+button[data-lyr],
+button[data-vid] {
+  display: none !important;
+}
+.share-btn {
+  min-width: 38px;
+  width: 38px;
+  height: 38px;
+  padding: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.share-btn img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+}
