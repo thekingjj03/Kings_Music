@@ -32,3 +32,14 @@
   .hero p{font-size:.92rem;}
   .song-sub{font-size:.72rem;}
 }
+
+
+/* v5.5 no-video safe cleanup */
+#toggleVideo,
+#videoBox,
+.video-box,
+#videoWideBtn,
+#wideVideoDialog,
+.wide-video {
+  display: none !important;
+}

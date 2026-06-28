@@ -298,11 +298,31 @@ function events(){
   }
 }
 async function init(){
-  songs=await(await fetch('songs.json?v=5.4b')).json(); loadPl(); home(); allSongs(); artists(); renderPl(); renderQ(); events();
+  songs=await(await fetch('songs.json?v=5.5')).json(); loadPl(); home(); allSongs(); artists(); renderPl(); renderQ(); events();
   const p=new URLSearchParams(location.search); if(p.get('pl'))importCode(p.get('pl'));
-  if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=5.4b').catch(()=>{});
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=5.5').catch(()=>{});
 }
 init().catch(e=>{console.error(e); document.body.innerHTML='<main style="color:white;padding:20px">Could not load Kings Music.</main>';});
 
 
 /* v5.4b final safety marker: OG v5 design, patched click/music/video behavior */
+
+
+/* v5.5 no-video safe override
+   Video has been removed, but hidden DOM placeholders are kept to avoid null errors. */
+function switchToVideo(force=false){
+  return;
+}
+function switchToAudio(){
+  videoMode = false;
+  if (typeof videoBox !== "undefined" && videoBox) videoBox.hidden = true;
+  if (typeof toggleVideo !== "undefined" && toggleVideo) {
+    toggleVideo.hidden = true;
+    toggleVideo.style.display = "none";
+  }
+  updateIcons();
+  syncSeekUI();
+}
+function showVideo(){
+  return;
+}

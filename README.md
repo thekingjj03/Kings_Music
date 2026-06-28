@@ -60,3 +60,20 @@ Changes:
   - switching back resumes audio at the video timestamp
 - Updates cache-busting to `v=5.4b`.
 - Service worker clears older broken caches.
+
+
+## v5.5 OG design no-video safe build
+
+Built from the v5.4b OG design package.
+
+Changes:
+- Kept the original v5 design/layout.
+- Kept the new Kings Music logo and app icons.
+- Kept all 20 songs/audio files.
+- Removed all video files.
+- Cleared all video metadata from songs.json.
+- Hid video UI completely.
+- Kept hidden DOM placeholders so old v5 JavaScript does not crash with null `.onclick` errors.
+- Added no-video overrides for video functions.
+- Updated cache-busting to `v=5.5`.
+- Service worker clears older broken caches.
