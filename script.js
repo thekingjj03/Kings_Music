@@ -280,9 +280,9 @@ function events(){
     catch{const box=$('#playlistCodeBox'); if(box)box.value=u.toString(); toastMsg('Copy link from box');}
   });
   kmOn('#makePlaylistCode', ()=>{const box=$('#playlistCodeBox'); if(box)box.value=encodePlaylist(); toastMsg('Playlist code ready');});
-  kmOn('#importPlaylistCode', ()=>{const box=$('#playlistCodeBox'); importCode(box?box.value:'');});
+  kmOn('#importPlaylistCode', ()=>{const box=$('#playlistCodeBox'); importAnyCodeSafe(box?box.value:'');});
   kmOn('#clearPlaylist', ()=>{playlist=[]; savePl(); renderPl();});
-  kmOn('#sharePlaylistTop', ()=>{switchTab('playlists'); const b=$('#makePlaylistCode'); if(b)b.click();});
+  kmOn('#sharePlaylistTop', ()=>{switchTab('playlists'); toastMsg('Sharing opened');});
 
   [audio,songVideo].filter(Boolean).forEach(m=>{
     m.onplay=updateIcons;
@@ -298,9 +298,9 @@ function events(){
   }
 }
 async function init(){
-  songs=await(await fetch('songs.json?v=5.7.1')).json(); loadPl(); home(); allSongs(); artists(); renderPl(); renderQ(); events();
+  songs=await(await fetch('songs.json?v=5.8')).json(); loadPl(); home(); allSongs(); artists(); renderPl(); renderQ(); events();
   const p=new URLSearchParams(location.search); if(p.get('pl'))importCode(p.get('pl'));
-  if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=5.7.1').catch(()=>{});
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=5.8').catch(()=>{});
 }
 init().catch(e=>{console.error(e); document.body.innerHTML='<main style="color:white;padding:20px">Could not load Kings Music.</main>';});
 
@@ -340,19 +340,39 @@ function showVideo(){ return; }
 })();
 
 
-/* v5.7.1 safe share helpers */
+
+
+/* v5.8 code-based sharing */
+function songCodeForIndex(i){
+  if(i < 0 || !songs[i]) return '';
+  return 'S' + i.toString(36).toUpperCase().padStart(2, '0');
+}
+function songIndexFromCode(code){
+  const cleaned = (code || '').trim().toUpperCase().replace(/\s+/g,'');
+  if(!/^S[0-9A-Z]{2}$/.test(cleaned)) return -1;
+  const i = parseInt(cleaned.slice(1), 36);
+  return Number.isFinite(i) && songs[i] ? i : -1;
+}
 function shareSongSafe(i){
   const s = songs[i];
   if(!s) return;
-  const u = new URL(location.href);
-  u.searchParams.set('song', s.id);
-  const url = u.toString();
-  const text = `${s.title} — ${artistLine(s)} on Kings Music`;
-  if(navigator.share){
-    navigator.share({title:s.title,text,url}).catch(()=>{});
+  const code = songCodeForIndex(i);
+  const box = document.querySelector('#playlistCodeBox');
+  if(box) box.value = code;
+  switchTab('playlists');
+  try { navigator.clipboard?.writeText(code); } catch {}
+  toastMsg(`${s.title} code: ${code}`);
+}
+function importAnyCodeSafe(raw){
+  const code = (raw || '').trim();
+  const songIndex = songIndexFromCode(code);
+  if(songIndex >= 0){
+    setCur(songIndex);
+    openNP();
+    toastMsg('Song code loaded');
     return;
   }
-  navigator.clipboard?.writeText(url).then(()=>toastMsg('Song link copied')).catch(()=>toastMsg('Share link ready'));
+  importCode(code);
 }
 function addShareButtonsSafe(root=document){
   root.querySelectorAll('.song-row').forEach(row => {
@@ -369,9 +389,9 @@ function addShareButtonsSafe(root=document){
     const b = document.createElement('button');
     b.className = 'share-btn';
     b.type = 'button';
-    b.title = 'Share';
-    b.setAttribute('aria-label', 'Share ' + songs[songIndex].title);
-    b.innerHTML = '<img src="assets/icons/share.png?v=5.7.1" alt="">';
+    b.title = 'Get song code';
+    b.setAttribute('aria-label', 'Get code for ' + songs[songIndex].title);
+    b.innerHTML = '<img src="assets/icons/share.png?v=5.8" alt="">';
     b.onclick = () => shareSongSafe(songIndex);
     actions.appendChild(b);
   });

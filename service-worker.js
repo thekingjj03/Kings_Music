@@ -1,4 +1,4 @@
-const CACHE_NAME = "kings-music-v5-7-1-safe";
+const CACHE_NAME = "kings-music-v5-8-sharing-codes";
 self.addEventListener("install", event => self.skipWaiting());
 self.addEventListener("activate", event => {
   event.waitUntil((async () => {

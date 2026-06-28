@@ -100,3 +100,13 @@ Changes:
 - Hid browse-row lyrics/video buttons with CSS.
 - Added share buttons using a safe post-render method instead of rewriting the row renderer.
 - Kept no-video setup.
+
+
+## v5.8 sharing codes update
+
+- Replaced the share icon with a version that has a visible gold background.
+- Changed the Playlists tab/area wording toward Sharing.
+- Song share buttons now create a short song code like `S00`, `S01`, etc.
+- Import code box now accepts song codes or playlist codes.
+- Top-right sharing button now opens Sharing instead of redundantly generating a playlist code.
+- Kept the working v5.7.1 base and no-video setup.
