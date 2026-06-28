@@ -43,16 +43,20 @@ None
 - One Take was listed as Ralphy in its metadata/filename, so I kept Ralphy as the primary artist. You had said Ralphy is primary on two songs, so this may be one to confirm later.
 
 
-## v5.3 original-design fix
+## v5.4b OG design video/player fix
 
-This build goes back to the original v5 design instead of the v6 redesign.
+Built from the uploaded OG v5 package.
 
 Changes:
-- Kept the v5 layout/style.
-- Added the new Kings Music logo and app icons.
-- Removed video files.
-- Removed video UI.
-- Cleared video metadata.
-- Patched null `.onclick` errors with safe event binding.
-- Updated cache-busting to `v=5.3`.
-- Replaced service worker cache so older broken versions should clear.
+- Keeps the original v5 design/layout.
+- Adds the new Kings Music logo and app icons.
+- Keeps all 20 audio files.
+- Keeps the Overthinking video file and video button.
+- Fixes the null `.onclick` startup crash.
+- Uses safer event binding so missing elements do not crash the site.
+- Uses v3-style audio/video switching:
+  - audio pauses
+  - video opens at the same timestamp
+  - switching back resumes audio at the video timestamp
+- Updates cache-busting to `v=5.4b`.
+- Service worker clears older broken caches.

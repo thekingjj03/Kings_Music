@@ -16,8 +16,9 @@ let videoMode = false;
 let pendingVideoResume = false;
 
 const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
 
-/* v5.3 safe helpers */
+/* v5.4b safety helpers */
 function kmOn(selectorOrEl, handler){
   const el = typeof selectorOrEl === "string" ? document.querySelector(selectorOrEl) : selectorOrEl;
   if (el) el.onclick = handler;
@@ -28,12 +29,15 @@ function kmListen(selectorOrEl, eventName, handler){
   if (el) el.addEventListener(eventName, handler);
   return el;
 }
-function kmSetHidden(selectorOrEl, value){
+function kmShowModal(selectorOrEl){
   const el = typeof selectorOrEl === "string" ? document.querySelector(selectorOrEl) : selectorOrEl;
-  if (el) el.hidden = value;
+  if (el && typeof el.showModal === "function") el.showModal();
+}
+function kmClose(selectorOrEl){
+  const el = typeof selectorOrEl === "string" ? document.querySelector(selectorOrEl) : selectorOrEl;
+  if (el && typeof el.close === "function") el.close();
 }
 
-const $$ = s => Array.from(document.querySelectorAll(s));
 const audio = $('#audio');
 const barCover = $('#barCover');
 const barTitle = $('#barTitle');
@@ -164,10 +168,10 @@ function renderQ(){
 function setCur(i){
   const s=songs[i]; if(!s)return;
   const switchingSong = currentIndex !== i;
-  currentIndex=i; videoMode=false; videoBox.hidden=true; songVideo.pause();
+  currentIndex=i; videoMode=false; if(videoBox)videoBox.hidden=true; if(songVideo)songVideo.pause();
   barCover.src=npCover.src=s.cover; barTitle.textContent=npTitle.textContent=s.title; barArtist.textContent=displayArtist(s); npArtist.textContent=artistLine(s);
-  lyricsText.textContent=s.lyricsText||'No lyrics added yet.'; toggleVideo.hidden=!s.video; toggleVideo.textContent='Video';
-  if(s.video){songVideo.src=wideVideo.src=s.video;} else {songVideo.removeAttribute('src'); wideVideo.removeAttribute('src');}
+  lyricsText.textContent=s.lyricsText||'No lyrics added yet.'; if(toggleVideo){toggleVideo.hidden=!s.video; toggleVideo.textContent='Video';}
+  if(s.video){if(songVideo)songVideo.src=s.video; if(wideVideo)wideVideo.src=s.video;} else {if(songVideo)songVideo.removeAttribute('src'); if(wideVideo)wideVideo.removeAttribute('src');}
   document.title=s.title+' • Kings Music';
 }
 function playSong(i){const s=songs[i]; if(!s)return; setCur(i); audio.src=s.audio; audio.currentTime=0; audio.play().catch(()=>{}); updateIcons();}
@@ -179,24 +183,48 @@ function togglePlay(){
 }
 function syncSeekUI(){const m=activeMedia(); if(isSeeking || !m.duration)return; seekBar.value=m.currentTime/m.duration*100; currentTimeEl.textContent=fmt(m.currentTime); durationEl.textContent=fmt(m.duration);}
 function switchToVideo(force=false){
-  const s=songs[currentIndex]; if(!s?.video)return;
-  const wasPlaying=!audio.paused;
-  const t=audio.currentTime||0;
-  audio.pause();
-  videoBox.hidden=false; videoMode=true; toggleVideo.textContent='Audio';
-  if(!songVideo.src)songVideo.src=s.video;
-  pendingVideoResume=wasPlaying || force;
-  const go=()=>{try{songVideo.currentTime=Math.min(t, songVideo.duration||t);}catch{} if(pendingVideoResume)songVideo.play().catch(()=>{}); pendingVideoResume=false; updateIcons(); syncSeekUI();};
-  if(songVideo.readyState>=1) go(); else songVideo.onloadedmetadata=go;
+  const s=songs[currentIndex];
+  if(!s?.video || !songVideo || !videoBox) return;
+  const wasPlaying = audio ? !audio.paused : false;
+  const t = audio ? (audio.currentTime || 0) : 0;
+
+  if(audio) audio.pause();
+
+  videoBox.hidden = false;
+  videoMode = true;
+  if(toggleVideo) toggleVideo.textContent = 'Audio';
+
+  if(songVideo.getAttribute('src') !== s.video) {
+    songVideo.src = s.video;
+  }
+
+  const go = () => {
+    try {
+      if (Number.isFinite(t)) songVideo.currentTime = Math.min(t, songVideo.duration || t);
+    } catch {}
+    if (wasPlaying || force) songVideo.play().catch(()=>{});
+    updateIcons();
+    syncSeekUI();
+  };
+
+  if(songVideo.readyState >= 1) go();
+  else songVideo.onloadedmetadata = go;
 }
 function switchToAudio(){
-  if(currentIndex<0)return;
-  const wasPlaying=!songVideo.paused;
-  const t=songVideo.currentTime||audio.currentTime||0;
-  songVideo.pause(); videoMode=false; videoBox.hidden=true; toggleVideo.textContent='Video';
-  if(!audio.src)audio.src=songs[currentIndex].audio;
-  try{audio.currentTime=t;}catch{}
-  if(wasPlaying)audio.play().catch(()=>{}); updateIcons(); syncSeekUI();
+  if(currentIndex<0 || !audio || !songVideo) return;
+  const wasPlaying = !songVideo.paused;
+  const t = songVideo.currentTime || audio.currentTime || 0;
+
+  songVideo.pause();
+  videoMode = false;
+  if(videoBox) videoBox.hidden = true;
+  if(toggleVideo) toggleVideo.textContent = 'Video';
+
+  if(!audio.src) audio.src = songs[currentIndex].audio;
+  try { audio.currentTime = t; } catch {}
+  if(wasPlaying) audio.play().catch(()=>{});
+  updateIcons();
+  syncSeekUI();
 }
 function showVideo(){ if(videoMode) switchToAudio(); else switchToVideo(); }
 function next(){
@@ -208,31 +236,73 @@ function openNP(){if(!nowPlaying.open)nowPlaying.showModal();}
 function switchTab(t){$$('.tab-panel').forEach(p=>p.classList.remove('active')); $$('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===t)); $('#'+t+'Tab')?.classList.add('active'); scrollTo({top:0,behavior:'smooth'});}
 function events(){
   $$('.tab,.tab-jump,.brand').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
-  $('#searchInput').oninput=allSongs; $('#sortSelect').onchange=allSongs; kmOn('#shuffleBtn', ()=>playSong(Math.floor(Math.random()*songs.length)));
-  playBtn.onclick=npPlay.onclick=togglePlay; prevBtn.onclick=npPrev.onclick=prev; nextBtn.onclick=npNext.onclick=next;
-  kmOn('#openNowPlaying', openNP); kmOn('#closeNowPlaying', ()=>nowPlaying.close());
-  kmOn('#toggleLyrics', ()=>lyricsPanel.hidden=!lyricsPanel.hidden); kmOn('#toggleQueue', ()=>queuePanel.hidden=!queuePanel.hidden); if (toggleVideo) toggleVideo.onclick = showVideo;
-  kmOn('#videoWideBtn', ()=>{if(songs[currentIndex]?.video){wideVideo.src=songs[currentIndex].video); wideVideo.currentTime=songVideo.currentTime||0; wideVideoDialog.showModal(); wideVideo.play().catch(()=>{});}};
-  kmOn('#closeWideVideo', ()=>{songVideo.currentTime=wideVideo.currentTime||songVideo.currentTime); wideVideo.pause(); wideVideoDialog.close();};
-  kmOn('#addCurrentToPlaylist', ()=>{if(currentIndex>=0)addPl(currentIndex));};
+  kmListen('#searchInput','input',allSongs);
+  kmListen('#sortSelect','change',allSongs);
+  kmOn('#shuffleBtn',()=>playSong(Math.floor(Math.random()*songs.length)));
+
+  if (playBtn) playBtn.onclick = togglePlay;
+  if (npPlay) npPlay.onclick = togglePlay;
+  if (prevBtn) prevBtn.onclick = prev;
+  if (npPrev) npPrev.onclick = prev;
+  if (nextBtn) nextBtn.onclick = next;
+  if (npNext) npNext.onclick = next;
+
+  kmOn('#openNowPlaying', openNP);
+  kmOn('#closeNowPlaying', ()=>kmClose(nowPlaying));
+  kmOn('#toggleLyrics', ()=>{ if (lyricsPanel) lyricsPanel.hidden = !lyricsPanel.hidden; });
+  kmOn('#toggleQueue', ()=>{ if (queuePanel) queuePanel.hidden = !queuePanel.hidden; });
+  if (toggleVideo) toggleVideo.onclick = showVideo;
+
+  kmOn('#videoWideBtn', ()=>{
+    if(songs[currentIndex]?.video && wideVideo && songVideo && wideVideoDialog){
+      wideVideo.src = songs[currentIndex].video;
+      try { wideVideo.currentTime = songVideo.currentTime || 0; } catch {}
+      kmShowModal(wideVideoDialog);
+      wideVideo.play().catch(()=>{});
+    }
+  });
+
+  kmOn('#closeWideVideo', ()=>{
+    if(songVideo && wideVideo){
+      try { songVideo.currentTime = wideVideo.currentTime || songVideo.currentTime; } catch {}
+      wideVideo.pause();
+    }
+    kmClose(wideVideoDialog);
+  });
+
+  kmOn('#addCurrentToPlaylist', ()=>{ if(currentIndex>=0)addPl(currentIndex); });
   $$('.artist-mode').forEach(b=>b.onclick=()=>{$$('.artist-mode').forEach(x=>x.classList.remove('active')); b.classList.add('active'); artistMode=b.dataset.mode; artistSongs();});
-  kmOn('#closeArtist', ()=>$('#artistDetail').hidden=true);
-  kmOn('#copyPlaylistLink', async()=>{const u=new URL(location.href)); u.searchParams.set('pl', encodePlaylist()); try{await navigator.clipboard.writeText(u.toString()); toastMsg('Playlist link copied');}catch{$('#playlistCodeBox').value=u.toString(); toastMsg('Copy link from box');}};
-  kmOn('#makePlaylistCode', ()=>{$('#playlistCodeBox').value=encodePlaylist()); toastMsg('Playlist code ready');};
-  kmOn('#importPlaylistCode', ()=>importCode($('#playlistCodeBox').value));
-  kmOn('#clearPlaylist', ()=>{playlist=[]); savePl(); renderPl();};
-  kmOn('#sharePlaylistTop', ()=>{switchTab('playlists')); $('#makePlaylistCode').click();};
-  [audio,songVideo].forEach(m=>{m.onplay=updateIcons; m.onpause=updateIcons; m.onended=next; m.onloadedmetadata=syncSeekUI; m.ontimeupdate=syncSeekUI;});
-  seekBar.oninput=()=>isSeeking=true;
-  seekBar.onchange=()=>{const m=activeMedia(); if(m.duration)m.currentTime=+seekBar.value/100*m.duration; isSeeking=false; syncSeekUI();};
+  kmOn('#closeArtist', ()=>{ const d=$('#artistDetail'); if(d)d.hidden=true; });
+
+  kmOn('#copyPlaylistLink', async()=>{
+    const u=new URL(location.href); u.searchParams.set('pl', encodePlaylist());
+    try{await navigator.clipboard.writeText(u.toString()); toastMsg('Playlist link copied');}
+    catch{const box=$('#playlistCodeBox'); if(box)box.value=u.toString(); toastMsg('Copy link from box');}
+  });
+  kmOn('#makePlaylistCode', ()=>{const box=$('#playlistCodeBox'); if(box)box.value=encodePlaylist(); toastMsg('Playlist code ready');});
+  kmOn('#importPlaylistCode', ()=>{const box=$('#playlistCodeBox'); importCode(box?box.value:'');});
+  kmOn('#clearPlaylist', ()=>{playlist=[]; savePl(); renderPl();});
+  kmOn('#sharePlaylistTop', ()=>{switchTab('playlists'); const b=$('#makePlaylistCode'); if(b)b.click();});
+
+  [audio,songVideo].filter(Boolean).forEach(m=>{
+    m.onplay=updateIcons;
+    m.onpause=updateIcons;
+    m.onended=next;
+    m.onloadedmetadata=syncSeekUI;
+    m.ontimeupdate=syncSeekUI;
+  });
+
+  if (seekBar) {
+    seekBar.oninput=()=>isSeeking=true;
+    seekBar.onchange=()=>{const m=activeMedia(); if(m && m.duration)m.currentTime=+seekBar.value/100*m.duration; isSeeking=false; syncSeekUI();};
+  }
 }
 async function init(){
-  songs=await(await fetch('songs.json?v=5.3')).json(); loadPl(); home(); allSongs(); artists(); renderPl(); renderQ(); events();
+  songs=await(await fetch('songs.json?v=5.4b')).json(); loadPl(); home(); allSongs(); artists(); renderPl(); renderQ(); events();
   const p=new URLSearchParams(location.search); if(p.get('pl'))importCode(p.get('pl'));
-  if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=5.3').catch(()=>{});
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=5.4b').catch(()=>{});
 }
 init().catch(e=>{console.error(e); document.body.innerHTML='<main style="color:white;padding:20px">Could not load Kings Music.</main>';});
 
 
-/* v5.3 no-video final guard */
-window.showVideo = function(){ return; };
+/* v5.4b final safety marker: OG v5 design, patched click/music/video behavior */
