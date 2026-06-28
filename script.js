@@ -79,50 +79,27 @@ function toastMsg(m){toast.textContent=m; toast.hidden=false; clearTimeout(toast
 function primaryArtists(s){return Array.isArray(s.primaryArtists)&&s.primaryArtists.length?s.primaryArtists:[s.artist||'KingJJ'];}
 function displayArtist(s){return s.displayArtist || `${primaryArtists(s).join(', ')}${s.featuredArtists?.length ? ' feat. '+s.featuredArtists.join(', ') : ''}`;}
 function releaseLabel(s){return s.releaseDate || '2026';}
-function artistLine(s){
-  if(s.displayArtist) return s.displayArtist;
-  const feats=s.featuredArtists||[];
-  return s.artist+(feats.length?' feat. '+feats.join(', '):'');
+function artistLine(s){let c=s.category?` • ${s.category}`:''; return `${displayArtist(s)} • ${s.type||'Single'} • ${releaseLabel(s)}${c}`;}
+function datev(s){
+  const sort = s.releaseSort || s.releaseDate || '';
+  const parts = String(sort).match(/(\d{4})-(\d{2})/);
+  if(parts) return Number(parts[1])*100 + Number(parts[2]);
+  const n = Date.parse(s.releaseDate || ''); if(!isNaN(n)) return n;
+  const y = String(s.releaseDate||'').match(/\d{4}/); return y?Number(y[0])*100:0;
 }
 function activeMedia(){return videoMode ? songVideo : audio;}
 function activePaused(){const m=activeMedia(); return !m.src || m.paused;}
 
-
-/* v5.7 share helpers */
-function songShareUrl(i){
-  const s = songs[i];
-  const u = new URL(location.href);
-  if (s?.id) u.searchParams.set('song', s.id);
-  return u.toString();
-}
-async function shareSong(i){
-  const s = songs[i];
-  if(!s) return;
-  const url = songShareUrl(i);
-  const text = `${s.title} — ${artistLine(s)} on Kings Music`;
-  try {
-    if(navigator.share){
-      await navigator.share({title: s.title, text, url});
-      return;
-    }
-  } catch {}
-  try {
-    await navigator.clipboard.writeText(url);
-    toastMsg('Song link copied');
-  } catch {
-    toastMsg('Song link ready');
-  }
-}
-
 function row(s){
   const i=songs.findIndex(x=>x.id===s.id);
-  return `<article class="song-row"><img src="${s.cover}" loading="lazy" alt=""><div><div class="song-title">${esc(s.title)}</div><div class="song-sub">${esc(artistLine(s))}</div></div><div class="row-actions"><button data-play="${i}">Play</button><button data-queue="${i}" class="queue-text">Queue</button><button data-list="${i}" class="hide-mobile">+ List</button><button data-share="${i}" class="share-btn" title="Share" aria-label="Share ${esc(s.title)}"><img src="assets/icons/share.png?v=5.7" alt=""></button></div></article>`;
+  return `<article class="song-row"><img src="${s.cover}" loading="lazy" alt=""><div><div class="song-title">${esc(s.title)}</div><div class="song-sub">${esc(artistLine(s))}</div></div><div class="row-actions"><button data-play="${i}">Play</button><button data-queue="${i}" class="queue-text">Queue</button><button data-list="${i}" class="hide-mobile">+ List</button>${s.lyricsText?`<button data-lyr="${i}" class="hide-mobile">Lyrics</button>`:''}${s.video?`<button data-vid="${i}" class="hide-mobile">Video</button>`:''}</div></article>`;
 }
 function bind(root=document){
   root.querySelectorAll('[data-play]').forEach(b=>b.onclick=()=>playSong(+b.dataset.play));
   root.querySelectorAll('[data-queue]').forEach(b=>b.onclick=()=>addQ(+b.dataset.queue));
   root.querySelectorAll('[data-list]').forEach(b=>b.onclick=()=>addPl(+b.dataset.list));
-  root.querySelectorAll('[data-share]').forEach(b=>b.onclick=()=>shareSong(+b.dataset.share));
+  root.querySelectorAll('[data-lyr]').forEach(b=>b.onclick=()=>{setCur(+b.dataset.lyr); openNP(); lyricsPanel.hidden=false;});
+  root.querySelectorAll('[data-vid]').forEach(b=>b.onclick=()=>{playSong(+b.dataset.vid); openNP(); switchToVideo(true);});
 }
 function home(){
   const recent=[...songs].sort((a,b)=>datev(b)-datev(a)).slice(0,5);
@@ -162,10 +139,9 @@ function loadPl(){
 }
 function renderPl(){
   const l=playlist.map(id=>songs.find(s=>s.id===id)).filter(Boolean);
-  $('#playlistList').innerHTML=l.length?l.map((s,i)=>`<article class="song-row"><img src="${s.cover}" alt=""><div><div class="song-title">${esc(s.title)}</div><div class="song-sub">${esc(artistLine(s))}</div></div><div class="row-actions"><button data-plplay="${i}">Play</button><button data-plrem="${i}">Remove</button><button data-plshare="${i}" class="share-btn" title="Share"><img src="assets/icons/share.png?v=5.7" alt=""></button></div></article>`).join(''):'<p class="muted">No songs in this playlist yet. Add songs from the song list.</p>';
+  $('#playlistList').innerHTML=l.length?l.map((s,i)=>`<article class="song-row"><img src="${s.cover}" alt=""><div><div class="song-title">${esc(s.title)}</div><div class="song-sub">${esc(artistLine(s))}</div></div><div class="row-actions"><button data-plplay="${i}">Play</button><button data-plrem="${i}">Remove</button></div></article>`).join(''):'<p class="muted">No songs in this playlist yet. Add songs from the song list.</p>';
   $$('[data-plplay]').forEach(b=>b.onclick=()=>playSong(songs.findIndex(s=>s.id===l[+b.dataset.plplay].id)));
   $$('[data-plrem]').forEach(b=>b.onclick=()=>{playlist.splice(+b.dataset.plrem,1); savePl(); renderPl();});
-  $$('[data-plshare]').forEach(b=>b.onclick=()=>shareSong(songs.findIndex(s=>s.id===l[+b.dataset.plshare].id)));
 }
 function encodePlaylist(){
   const payload=JSON.stringify({v:2, app:'KingsMusic', tracks:playlist});
@@ -322,9 +298,9 @@ function events(){
   }
 }
 async function init(){
-  songs=await(await fetch('songs.json?v=5.7')).json(); loadPl(); home(); allSongs(); artists(); renderPl(); renderQ(); events();
+  songs=await(await fetch('songs.json?v=5.7.1')).json(); loadPl(); home(); allSongs(); artists(); renderPl(); renderQ(); events();
   const p=new URLSearchParams(location.search); if(p.get('pl'))importCode(p.get('pl'));
-  if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=5.7').catch(()=>{});
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=5.7.1').catch(()=>{});
 }
 init().catch(e=>{console.error(e); document.body.innerHTML='<main style="color:white;padding:20px">Could not load Kings Music.</main>';});
 
@@ -364,20 +340,47 @@ function showVideo(){ return; }
 })();
 
 
-/* v5.7 deep-link song support */
-(function(){
-  const params = new URLSearchParams(location.search);
-  const id = params.get('song');
-  if(!id) return;
-  const tryOpen = () => {
-    if(!Array.isArray(songs) || !songs.length) return false;
-    const i = songs.findIndex(s => s.id === id);
-    if(i >= 0) {
-      setCur(i);
-      toastMsg('Loaded shared song');
-      return true;
+/* v5.7.1 safe share helpers */
+function shareSongSafe(i){
+  const s = songs[i];
+  if(!s) return;
+  const u = new URL(location.href);
+  u.searchParams.set('song', s.id);
+  const url = u.toString();
+  const text = `${s.title} — ${artistLine(s)} on Kings Music`;
+  if(navigator.share){
+    navigator.share({title:s.title,text,url}).catch(()=>{});
+    return;
+  }
+  navigator.clipboard?.writeText(url).then(()=>toastMsg('Song link copied')).catch(()=>toastMsg('Share link ready'));
+}
+function addShareButtonsSafe(root=document){
+  root.querySelectorAll('.song-row').forEach(row => {
+    const actions = row.querySelector('.row-actions');
+    if(!actions || actions.querySelector('.share-btn')) return;
+    const playBtn = actions.querySelector('[data-play], [data-plplay]');
+    let songIndex = -1;
+    if(playBtn?.dataset?.play !== undefined) songIndex = Number(playBtn.dataset.play);
+    if(playBtn?.dataset?.plplay !== undefined) {
+      const visibleTitle = row.querySelector('.song-title')?.textContent?.trim();
+      songIndex = songs.findIndex(s => s.title === visibleTitle);
     }
-    return false;
+    if(songIndex < 0 || !songs[songIndex]) return;
+    const b = document.createElement('button');
+    b.className = 'share-btn';
+    b.type = 'button';
+    b.title = 'Share';
+    b.setAttribute('aria-label', 'Share ' + songs[songIndex].title);
+    b.innerHTML = '<img src="assets/icons/share.png?v=5.7.1" alt="">';
+    b.onclick = () => shareSongSafe(songIndex);
+    actions.appendChild(b);
+  });
+}
+const kmOriginalBindForShare = typeof bind === 'function' ? bind : null;
+if(kmOriginalBindForShare){
+  bind = function(root=document){
+    kmOriginalBindForShare(root);
+    addShareButtonsSafe(root);
   };
-  setTimeout(tryOpen, 500);
-})();
+}
+setTimeout(()=>addShareButtonsSafe(document), 400);

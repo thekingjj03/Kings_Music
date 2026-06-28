@@ -57,7 +57,7 @@ button[data-vid],
 }
 
 
-/* v5.7 share button styles */
+/* v5.7.1 safe share styles */
 button[data-lyr],
 button[data-vid] {
   display: none !important;
