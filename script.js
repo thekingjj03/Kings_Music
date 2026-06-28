@@ -170,7 +170,7 @@ function setCur(i){
   const switchingSong = currentIndex !== i;
   currentIndex=i; videoMode=false; if(videoBox)videoBox.hidden=true; if(songVideo)songVideo.pause();
   barCover.src=npCover.src=s.cover; barTitle.textContent=npTitle.textContent=s.title; barArtist.textContent=displayArtist(s); npArtist.textContent=artistLine(s);
-  lyricsText.textContent=s.lyricsText||'No lyrics added yet.'; if(toggleVideo){toggleVideo.hidden=!s.video; toggleVideo.textContent='Video';}
+  lyricsText.textContent=s.lyricsText||'No lyrics added yet.'; if(toggleVideo){toggleVideo.hidden=true; toggleVideo.style.display='none'; toggleVideo.textContent='Video';}
   if(s.video){if(songVideo)songVideo.src=s.video; if(wideVideo)wideVideo.src=s.video;} else {if(songVideo)songVideo.removeAttribute('src'); if(wideVideo)wideVideo.removeAttribute('src');}
   document.title=s.title+' • Kings Music';
 }
@@ -298,9 +298,9 @@ function events(){
   }
 }
 async function init(){
-  songs=await(await fetch('songs.json?v=5.5')).json(); loadPl(); home(); allSongs(); artists(); renderPl(); renderQ(); events();
+  songs=await(await fetch('songs.json?v=5.6')).json(); loadPl(); home(); allSongs(); artists(); renderPl(); renderQ(); events();
   const p=new URLSearchParams(location.search); if(p.get('pl'))importCode(p.get('pl'));
-  if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=5.5').catch(()=>{});
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('service-worker.js?v=5.6').catch(()=>{});
 }
 init().catch(e=>{console.error(e); document.body.innerHTML='<main style="color:white;padding:20px">Could not load Kings Music.</main>';});
 
@@ -326,3 +326,15 @@ function switchToAudio(){
 function showVideo(){
   return;
 }
+
+
+/* v5.6 no-video final cleanup */
+function switchToVideo(force=false){ return; }
+function showVideo(){ return; }
+(function(){
+  const b = document.querySelector('#toggleVideo');
+  if (b) {
+    b.hidden = true;
+    b.style.display = 'none';
+  }
+})();

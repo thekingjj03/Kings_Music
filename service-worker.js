@@ -1,4 +1,4 @@
-const CACHE_NAME = "kings-music-v5-5-og-no-video-safe";
+const CACHE_NAME = "kings-music-v5-6-add-pain-purpose";
 self.addEventListener("install", event => self.skipWaiting());
 self.addEventListener("activate", event => {
   event.waitUntil((async () => {

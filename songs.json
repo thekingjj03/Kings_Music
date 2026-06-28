@@ -1,5 +1,29 @@
 [
   {
+    "id": "pain-and-purpose-kingjj-remaster",
+    "title": "Pain and Purpose (KingJJ Remaster)",
+    "artist": "KingJJ",
+    "featuredArtists": [
+      "Tae Sosa",
+      "Jaylin Bradley"
+    ],
+    "type": "Single",
+    "category": "",
+    "releaseDate": "June 2026",
+    "cover": "assets/covers/pain-and-purpose-kingjj-remaster.png",
+    "audio": "assets/audio/pain-and-purpose-kingjj-remaster.m4a",
+    "lyrics": "lyrics/pain-and-purpose-kingjj-remaster.html",
+    "lyricsText": "",
+    "video": "",
+    "videoType": "",
+    "credits": "Performed by KingJJ with Tae Sosa and Jaylin Bradley. Presented by Kings Music.",
+    "primaryArtists": [
+      "KingJJ"
+    ],
+    "displayArtist": "KingJJ feat. Tae Sosa & Jaylin Bradley",
+    "releaseSort": "2026-06"
+  },
+  {
     "id": "back-of-my-mind",
     "title": "Back of my Mind",
     "artist": "KingJJ",

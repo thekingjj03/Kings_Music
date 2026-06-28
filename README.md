@@ -77,3 +77,13 @@ Changes:
 - Added no-video overrides for video functions.
 - Updated cache-busting to `v=5.5`.
 - Service worker clears older broken caches.
+
+
+## v5.6 update
+
+- Added: Pain and Purpose (KingJJ Remaster) featuring Tae Sosa and Jaylin Bradley.
+- Kept the current working v5 design.
+- Removed/hid leftover Overthinking video/audio toggle controls.
+- Kept all video files removed.
+- Kept null `.onclick` safety behavior.
+- Updated cache-busting to `v=5.6`.

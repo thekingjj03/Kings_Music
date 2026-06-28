@@ -43,3 +43,15 @@
 .wide-video {
   display: none !important;
 }
+
+
+/* v5.6 no-video button cleanup */
+#toggleVideo,
+button[data-vid],
+#videoBox,
+.video-box,
+#videoWideBtn,
+#wideVideoDialog,
+.wide-video {
+  display: none !important;
+}
